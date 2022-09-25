@@ -31,9 +31,16 @@ parser.add_argument(
 
 
 def setup_basic_config() -> Namespace:
+    """
+    :return: Namespace obj with parameters of running file
+
+    Function, that setups logs, clear parameters from .env file
+    """
+
     args = parser.parse_args()
     clear_environ(lambda arg: arg.startswith(ENV_VAR_PREFIX))
     basic_config(args.log_level, args.log_format, buffered=True)
+
     return args
 
 
