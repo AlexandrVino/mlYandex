@@ -1,33 +1,8 @@
 import os
 from argparse import ArgumentTypeError, Namespace
 from typing import Callable
-from aiomisc.log import basic_config, LogFormat
-from configargparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 
 ENV_VAR_PREFIX = 'ml_yandex_'
-
-parser = ArgumentParser(
-    auto_env_var_prefix=ENV_VAR_PREFIX,
-    formatter_class=ArgumentDefaultsHelpFormatter
-)
-
-# logging group
-parser.add_argument(
-    '--input-from', help='file name to upload (the script will find it by itself)', default='datasets_eat_places.csv'
-)
-parser.add_argument(
-    '--output-file', default=None
-)
-
-# logging group
-parser.add_argument(
-    '--log-level', default='info',
-    choices=('debug', 'info', 'warning', 'error', 'fatal')
-)
-parser.add_argument(
-    '--log-format', default='color',
-    choices=LogFormat.choices()
-)
 
 
 def setup_basic_config() -> Namespace:
@@ -37,11 +12,9 @@ def setup_basic_config() -> Namespace:
     Function, that setups logs, clear parameters from .env file
     """
 
-    args = parser.parse_args()
     clear_environ(lambda arg: arg.startswith(ENV_VAR_PREFIX))
-    basic_config(args.log_level, args.log_format, buffered=True)
 
-    return args
+    return Namespace(input_from='datasets_eat_places.csv')
 
 
 def validate(arg_type: Callable, constrain: Callable) -> Callable:

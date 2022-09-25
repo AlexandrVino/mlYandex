@@ -1,11 +1,8 @@
-import logging
 from pathlib import Path
 
 from pandas import DataFrame
 
 from __config__ import PROJECT_SOURCE_PATH
-
-log = logging.getLogger(__name__)
 
 
 def write_csv(absolute_path: str, obj: DataFrame) -> None:
@@ -17,9 +14,9 @@ def write_csv(absolute_path: str, obj: DataFrame) -> None:
     Function, that writes *.csv files
     """
 
-    log.info(f"Writing to %s" % absolute_path)
-    obj.to_csv(absolute_path)
-    log.info(f"End of data writing")
+    print(f"Writing to %s" % absolute_path)
+    obj.to_csv(absolute_path, encoding='utf8')
+    print(f"End of data writing")
 
 
 def write_xlsx(absolute_path: str, obj: DataFrame) -> None:
@@ -31,13 +28,14 @@ def write_xlsx(absolute_path: str, obj: DataFrame) -> None:
     Function, that writes *.xlsx files
     """
 
-    log.info(f"Writing to %s" % absolute_path)
+    print(f"Writing to %s" % absolute_path)
     obj.to_excel(absolute_path)
-    log.info(f"End of data writing")
+    print(f"End of data writing")
 
 
-def write_middleware(file_name: str) -> None:
+def write_middleware(file_name: str, dataset: DataFrame) -> None:
     """
+    :param dataset: DataFrame obj with data
     :param file_name: relative file path
     :return: Array of input file data
 
@@ -58,4 +56,4 @@ def write_middleware(file_name: str) -> None:
             f'Unknown file type "{file_type}" '
             f'(file types must be one of ({", ".join(f".{key}" for key in write_func.keys())})'
         )
-    func(absolute_path)
+    func(absolute_path, dataset)

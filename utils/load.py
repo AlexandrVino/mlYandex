@@ -1,11 +1,8 @@
-import logging
 from pathlib import Path
 
 from pandas import DataFrame, read_csv, read_excel
 
 from __config__ import PROJECT_SOURCE_PATH
-
-log = logging.getLogger(__name__)
 
 
 def load_csv(absolute_path: str) -> DataFrame:
@@ -16,7 +13,7 @@ def load_csv(absolute_path: str) -> DataFrame:
     Function, that loads *.csv files
     """
 
-    log.info(f"Loading %s" % absolute_path)
+    print(f"Loading %s" % absolute_path)
     return read_csv(absolute_path)
 
 
@@ -28,7 +25,7 @@ def load_xlsx(absolute_path: str) -> DataFrame:
     Function, that loads *.xlsx files
     """
 
-    log.info(f"Loading %s" % absolute_path)
+    print(f"Loading %s" % absolute_path)
     return read_excel(absolute_path)
 
 
@@ -57,6 +54,6 @@ def load_middleware(file_name: str) -> DataFrame:
         )
 
     val = func(absolute_path)
-    log.info(f"End of data loading")
+    print(f"End of data loading")
 
     return val
