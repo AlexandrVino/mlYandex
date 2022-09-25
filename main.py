@@ -40,28 +40,37 @@ def point_three(dataset: DataFrame) -> None:
     # Showing types of coffee shops
     # (I'm sorting it by len because I like it)
     sep = '\n'
-    coffee_shop_types = sorted(
-        set(dataset["rubric"].tolist()),
-        key=lambda x: len(x)
-    )
+    coffee_shop_types = sorted(set(dataset["rubric"].tolist()), key=lambda x: len(x))
     log.info(f'\n{sep.join(coffee_shop_types)}\n')
 
     keys = {'Ресторан', 'Бар, паб'}
-    rests_and_pubs = dataset.query(
-        f'rubric in {tuple(keys)}'
-    )
+    rests_and_pubs = dataset.query(f'rubric in {tuple(keys)}')
 
     vals = rests_and_pubs["rubric"].value_counts()
     counts = sum(vals[key] for key in keys)
 
-    rests_and_pubs_values = rests_and_pubs.agg(
-        {"average_bill": "sum"}
-    ).reset_index()
-
     # getting average bill
-    average_bill = rests_and_pubs_values[0][0] / counts
-
+    average_bill = rests_and_pubs.agg({"average_bill": "sum"})['average_bill'] / counts
     log.info(f'\nAverage Bill: {average_bill}\n')
+
+    coffee_to_go = dataset.query('rubric == "Кофе с собой"')
+    coffee_to_go_values = coffee_to_go.agg({'coffee_to_go': 'sum'})
+
+    # The share of "Coffee with you” establishments has a takeaway coffee feature Bill
+    log.info(f'\nThe share of "Coffee with you” establishments has a takeaway coffee feature: '
+             f'{coffee_to_go_values["coffee_to_go"] / len(coffee_to_go)}\n')
+
+    msk_sbp = dataset.groupby('city').agg(
+        {
+            'average_bill': 'sum',
+            'city': 'count'
+        }
+    )
+
+    msk_average_bill = msk_sbp['average_bill']['msk'] / msk_sbp['city']['msk']
+    sbp_average_bill = msk_sbp['average_bill']['spb'] / msk_sbp['city']['spb']
+
+    log.info(f'\nAverage Bill Difference between msk and spb: {msk_average_bill - sbp_average_bill}\n')
 
 
 def main():
