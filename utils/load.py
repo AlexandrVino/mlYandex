@@ -13,7 +13,7 @@ def load_csv(absolute_path: str) -> DataFrame:
     Function, that loads *.csv files
     """
 
-    print(f"Loading %s" % absolute_path)
+    print(f"    Loading {absolute_path}")
     return read_csv(absolute_path)
 
 
@@ -25,7 +25,7 @@ def load_xlsx(absolute_path: str) -> DataFrame:
     Function, that loads *.xlsx files
     """
 
-    print(f"Loading %s" % absolute_path)
+    print(f"    Loading {absolute_path}")
     return read_excel(absolute_path)
 
 
@@ -54,6 +54,6 @@ def load_middleware(file_name: str) -> DataFrame:
         )
 
     val = func(absolute_path)
-    print(f"End of data loading")
+    print(f"    End of data loading")
 
     return val

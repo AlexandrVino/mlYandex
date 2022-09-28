@@ -14,9 +14,9 @@ def write_csv(absolute_path: str, obj: DataFrame) -> None:
     Function, that writes *.csv files
     """
 
-    print(f"Writing to %s" % absolute_path)
+    print(f"    Writing to {absolute_path}")
     obj.to_csv(absolute_path, encoding='utf8')
-    print(f"End of data writing")
+    print(f"    End of data writing")
 
 
 def write_xlsx(absolute_path: str, obj: DataFrame) -> None:
@@ -28,9 +28,9 @@ def write_xlsx(absolute_path: str, obj: DataFrame) -> None:
     Function, that writes *.xlsx files
     """
 
-    print(f"Writing to %s" % absolute_path)
+    print(f"    Writing to {absolute_path}")
     obj.to_excel(absolute_path)
-    print(f"End of data writing")
+    print(f"    End of data writing")
 
 
 def write_middleware(file_name: str, dataset: DataFrame) -> None:
